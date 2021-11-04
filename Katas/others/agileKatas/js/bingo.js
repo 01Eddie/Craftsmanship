@@ -1,5 +1,5 @@
 #!/usr/bin/node
-let List = require('collections/list');
+
 /**
  * Name_Function: Bingo_Cards
  * @rows - params 1
@@ -9,22 +9,22 @@ let List = require('collections/list');
  * Return - card_columns
  */
 function bingo_card(rows, columns, lower_bound, upper_bound) {
-    let card_columns = new List([]);
+    let card_columns = [];
     let increment = upper_bound;
     upper_bound = int(upper_bound / 5);
 
     for (let key in columns) {
-        let current_column = new List();
+        let current_column = [];
         while (current_column.lenght() < rows) {
             candidate = generate_random_number(lower_bound, upper_bound)
             if (candidate != current_column)
             {
-                current_column.append(candidate);
+                current_column.push(candidate);
             }
         }
         lower_bound += increment;
         upper_bound += increment;
-        card_columns.append(current_column);        
+        card_columns.push(current_column);        
     }
     card_columns[2][2] = "";
     return card_columns;
@@ -38,10 +38,11 @@ function bingo_card(rows, columns, lower_bound, upper_bound) {
 
 class BingoCards {
     constructor (columns) {
-        this.checked = new List([]); // Aun no definido
+        this.checked = []; 
         this.columns = columns;
     }
-    get get_columns(column) {
+    
+    get_columns(column) {
         return column > columns.length ? null : columns[column];
     }
 
@@ -50,11 +51,11 @@ class BingoCards {
      * @param {int} number 
      */
     check_number(number) {
-        (number in this.get_card_numbers()) ? true : this.checked.append(number);
+        (number in this.get_card_numbers()) ? true : this.checked.push(number);
     }
 
     get get_card_numbers() {
-        let numbers = new List([]);
+        let numbers = [];
         for (let column in this.columns) {
             numbers += column;
         }
@@ -71,7 +72,7 @@ class Bingo {
     constructor () {
         this.available_numbers = [];
         for (let i = 1; i < 76; i++) {
-            this.available_numbers.append(i);
+            this.available_numbers.push(i);
         }
     }
 
@@ -112,3 +113,11 @@ class Bingo {
 function generate_random_number(lower_bound, upper_bound){
     return Math.random() * (upper_bound - lower_bound) + lower_bound;
 }
+
+
+const columns = [[1, 2, 3, 4, 5],
+[11, 22, 33, 44, 55],
+[21, 12, 23, 34, 45],
+[9, 8, 7, 6, 1],
+[1, 2, 32, 45, 51]]
+console.log(new BingoCards(columns));
